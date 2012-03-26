@@ -62,10 +62,9 @@ action :create do
       # The user block will fail if the group does not yet exist.
       # See the -g option limitations in man 8 useradd for an explanation.
       # This should correct that without breaking functionality.
-      if u['gid'] and u['gid'].kind_of?(Numeric)
-        group u['id'] do
-          gid u['gid']
-        end
+      group u['id'] do
+        gid u['gid']
+        only_if { u['gid'] and u['gid'].kind_of?(Numeric) }
       end
 
       # Create user object.
@@ -92,15 +91,14 @@ action :create do
           mode "0700"
         end
 
-        if u['ssh_keys']
-          template "#{home_dir}/.ssh/authorized_keys" do
-            source "authorized_keys.erb"
-            cookbook new_resource.cookbook
-            owner u['id']
-            group u['gid'] || u['id']
-            mode "0600"
-            variables :ssh_keys => u['ssh_keys']
-          end
+        template "#{home_dir}/.ssh/authorized_keys" do
+          source "authorized_keys.erb"
+          cookbook new_resource.cookbook
+          owner u['id']
+          group u['gid'] || u['id']
+          mode "0600"
+          variables :ssh_keys => u['ssh_keys']
+          only_if { u['ssh_keys'] }
         end
       end
     end
