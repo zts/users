@@ -31,6 +31,7 @@ Create a user in the data_bag/users/ directory.
     knife data bag users bofh
     {
       "id": "bofh",
+      "password": "$1$<hash>",
       "ssh_keys": "ssh-rsa AAAAB3Nz...yhCw== bofh",
       "groups": [ "sysadmin", "dba", "devops" ],
       "uid": 2001,

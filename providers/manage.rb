@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: users 
+# Cookbook Name:: users
 # Provider:: manage
 #
 # Copyright 2011, Eric G. Wolfe
@@ -66,6 +66,9 @@ action :create do
       uid u['uid']
       if u['gid']
         gid u['gid']
+      end
+      if u['password']
+        password u['password']
       end
       shell u['shell']
       comment u['comment']
